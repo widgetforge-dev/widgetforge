@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,136 +15,243 @@
             brandRed: '#FF3B30',
             brandBlue: '#007AFF',
             brandGreen: '#34C759',
-            darkBg: '#0D0D0D',
-            darkCard: '#1A1A1A'
+            darkBg: '#09090B',
+            darkCard: '#121215',
+            darkCardHover: '#18181B'
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            }
           }
         }
       }
     }
   </script>
+  <style>
+    .glow-bg {
+      background: radial-gradient(circle at 50% 20%, rgba(0, 122, 255, 0.15) 0%, rgba(52, 199, 89, 0.08) 35%, rgba(9, 9, 11, 0) 70%);
+    }
+    .card-glow:hover {
+      box-shadow: 0 0 25px -5px rgba(52, 199, 89, 0.2);
+    }
+  </style>
 </head>
-<body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brandBlue selection:text-white">
 
-  <header class="border-b border-gray-800 p-4">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <div class="flex gap-1">
-          <span class="w-3 h-3 rounded-full bg-brandRed"></span>
-          <span class="w-3 h-3 rounded-full bg-brandBlue"></span>
-          <span class="w-3 h-3 rounded-full bg-brandGreen"></span>
+  <div class="fixed inset-0 glow-bg pointer-events-none z-0"></div>
+
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-darkBg/70 border-b border-white/10 p-4 transition-all">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="flex gap-1.5 items-center">
+          <span class="w-3.5 h-3.5 rounded-full bg-brandRed shadow-[0_0_8px_#FF3B30]"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-brandBlue shadow-[0_0_8px_#007AFF]"></span>
+          <span class="w-3.5 h-3.5 rounded-full bg-brandGreen shadow-[0_0_8px_#34C759]"></span>
         </div>
-        <span class="font-bold text-xl tracking-wide">WidgetForge</span>
+        <span class="font-extrabold text-2xl tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400">WidgetForge</span>
       </div>
-      <nav class="flex gap-4 items-center">
-        <div id="guestNav" class="flex gap-4 items-center">
-          <a href="#features" class="text-gray-400 hover:text-white transition">Funciones</a>
-          <a href="#pricing" class="text-gray-400 hover:text-white transition">Planes</a>
-          <button onclick="toggleAuthModal(true)" class="bg-brandBlue hover:opacity-90 text-white font-medium px-4 py-2 rounded-lg transition">Acceder</button>
+
+      <nav class="flex gap-6 items-center">
+        <div id="guestNav" class="flex gap-6 items-center">
+          <a href="#catalog" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Widgets</a>
+          <a href="#features" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Ventajas</a>
+          <a href="#pricing" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Planes</a>
+          <button onclick="toggleAuthModal(true)" class="bg-gradient-to-r from-brandBlue to-blue-600 hover:opacity-90 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-brandBlue/20 transition-all transform hover:scale-105">Acceder</button>
         </div>
         <div id="userNav" class="hidden flex gap-4 items-center">
-          <span id="userEmailDisplay" class="text-gray-400 text-sm"></span>
-          <button onclick="handleLogout()" class="border border-gray-700 hover:border-gray-500 text-gray-300 font-medium px-3 py-1.5 rounded-lg text-sm transition">Cerrar Sesión</button>
+          <span id="userEmailDisplay" class="text-gray-400 text-sm font-mono bg-white/5 px-3 py-1.5 rounded-lg border border-white/10"></span>
+          <button onclick="handleLogout()" class="border border-white/15 hover:border-white/30 text-gray-300 font-medium px-4 py-2 rounded-xl text-sm transition">Cerrar Sesión</button>
         </div>
       </nav>
     </div>
   </header>
 
-  <main id="landingSection" class="max-w-4xl mx-auto text-center px-4 py-20">
-    <h1 class="text-5xl font-extrabold mb-6 tracking-tight">Potencia tu sitio web con widgets interactivos</h1>
-    <p class="text-gray-400 text-lg mb-8">Crea, personaliza e integra componentes dinámicos en segundos sin escribir una sola línea de código.</p>
-    <div class="flex justify-center gap-4">
-      <button onclick="toggleAuthModal(true)" class="bg-brandGreen hover:opacity-90 text-black font-semibold px-6 py-3 rounded-lg transition">Empezar gratis</button>
-      <a href="#pricing" class="border border-gray-700 hover:border-gray-500 text-white font-medium px-6 py-3 rounded-lg transition">Ver planes</a>
-    </div>
+  <main id="landingSection" class="relative z-10">
+    <section class="max-w-5xl mx-auto text-center px-4 pt-24 pb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brandGreen/30 bg-brandGreen/10 text-brandGreen text-xs font-semibold mb-6 animate-pulse-slow">
+        <span>✨ Explora más de 10+ widgets listos para integrar</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
+        Interactividad visual sin código para tu <span class="bg-clip-text text-transparent bg-gradient-to-r from-brandBlue via-brandGreen to-brandRed">sitio web</span>
+      </h1>
+      <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        Elige tu widget ideal, personalízalo visualmente en tiempo real y copia una sola línea de código. Compatible con WordPress, Shopify, Webflow y HTML puro.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#catalog" class="bg-gradient-to-r from-brandGreen to-emerald-500 hover:opacity-90 text-black font-bold px-8 py-4 rounded-xl shadow-lg shadow-brandGreen/25 transition-all transform hover:-translate-y-0.5">Explorar Galería</a>
+        <button onclick="toggleAuthModal(true)" class="border border-white/15 hover:bg-white/5 text-white font-semibold px-8 py-4 rounded-xl transition-all">Crear Cuenta Gratis</button>
+      </div>
+
+      <div class="mt-16 relative max-w-4xl mx-auto animate-float">
+        <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brandRed via-brandBlue to-brandGreen opacity-20 blur-xl"></div>
+        <div class="relative bg-darkCard border border-white/10 rounded-2xl p-6 shadow-2xl backdrop-blur-xl">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+            <div class="flex gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+            </div>
+            <span class="text-xs text-gray-500 font-mono">vista-previa-en-vivo.js</span>
+          </div>
+          <div class="p-8 bg-darkBg/60 rounded-xl border border-white/5 flex flex-col items-center justify-center min-h-[220px]">
+            <div class="bg-gradient-to-r from-brandBlue/20 to-brandGreen/20 border border-brandGreen/40 p-4 rounded-xl flex items-center gap-4 max-w-md shadow-lg">
+              <span class="text-2xl">🔥</span>
+              <div class="text-left">
+                <p class="font-bold text-sm text-white">¡Oferta Especial por Tiempo Limitado!</p>
+                <p class="text-xs text-gray-300">Obtén 30% de descuento usando el código <span class="font-mono bg-black/40 px-1.5 py-0.5 rounded text-brandGreen">FORGE30</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="max-w-7xl mx-auto px-4 py-20 border-t border-white/10">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Galería de Widgets</h2>
+        <p class="text-gray-400">Selecciona la plantilla perfecta para potenciar las conversiones de tu proyecto.</p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-2 mb-10">
+        <button class="bg-white/10 border border-white/20 text-white font-medium px-4 py-2 rounded-xl text-sm transition">Todos</button>
+        <button class="bg-darkCard hover:bg-white/5 border border-white/10 text-gray-400 font-medium px-4 py-2 rounded-xl text-sm transition">Marketing & Anuncios</button>
+        <button class="bg-darkCard hover:bg-white/5 border border-white/10 text-gray-400 font-medium px-4 py-2 rounded-xl text-sm transition">E-commerce</button>
+        <button class="bg-darkCard hover:bg-white/5 border border-white/10 text-gray-400 font-medium px-4 py-2 rounded-xl text-sm transition">Captura de Leads</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandGreen/50 card-glow group">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-3xl">📢</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-brandGreen/10 text-brandGreen border border-brandGreen/20 px-2.5 py-1 rounded-full">Popular</span>
+            </div>
+            <h3 class="font-bold text-xl mb-2 text-white group-hover:text-brandGreen transition-colors">Banner de Anuncio Top</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Muestra barras fijas en la parte superior para promociones, ofertas o avisos urgentes.</p>
+          </div>
+          <button onclick="toggleAuthModal(true)" class="w-full bg-white/5 hover:bg-brandGreen hover:text-black font-semibold text-sm py-3 rounded-xl border border-white/10 transition-all">Usar Plantilla</button>
+        </div>
+
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandBlue/50 card-glow group">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-3xl">⚡</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-brandBlue/10 text-brandBlue border border-brandBlue/20 px-2.5 py-1 rounded-full">E-Commerce</span>
+            </div>
+            <h3 class="font-bold text-xl mb-2 text-white group-hover:text-brandBlue transition-colors">Prueba Social Flotante</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Notificaciones de compras recientes para acelerar la confianza de tus visitantes.</p>
+          </div>
+          <button onclick="toggleAuthModal(true)" class="w-full bg-white/5 hover:bg-brandBlue hover:text-white font-semibold text-sm py-3 rounded-xl border border-white/10 transition-all">Usar Plantilla</button>
+        </div>
+
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandRed/50 card-glow group">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-3xl">✉️</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-brandRed/10 text-brandRed border border-brandRed/20 px-2.5 py-1 rounded-full">Leads</span>
+            </div>
+            <h3 class="font-bold text-xl mb-2 text-white group-hover:text-brandRed transition-colors">Captador de Newsletter</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">Crea pequeñas ventanas para capturar el correo de tus clientes antes de salir.</p>
+          </div>
+          <button onclick="toggleAuthModal(true)" class="w-full bg-white/5 hover:bg-brandRed hover:text-white font-semibold text-sm py-3 rounded-xl border border-white/10 transition-all">Usar Plantilla</button>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <main id="dashboardSection" class="hidden max-w-6xl mx-auto w-full px-4 py-10 flex-1">
+  <main id="dashboardSection" class="hidden max-w-7xl mx-auto w-full px-4 py-10 flex-1">
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h2 class="text-3xl font-bold">Panel de Control</h2>
-        <p class="text-gray-400 text-sm mt-1">Gestiona tus widgets y tu suscripción activa.</p>
+        <h2 class="text-3xl font-extrabold">Mi Panel de Control</h2>
+        <p class="text-gray-400 text-sm mt-1">Administra tus componentes y código de integración.</p>
       </div>
-      <button onclick="toggleCreateModal(true)" class="bg-brandGreen text-black font-semibold px-4 py-2 rounded-lg transition hover:opacity-90">+ Crear Widget</button>
+      <button onclick="toggleCreateModal(true)" class="bg-gradient-to-r from-brandGreen to-emerald-500 text-black font-bold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-brandGreen/20 hover:opacity-90">+ Nuevo Widget</button>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="bg-darkCard p-5 rounded-xl border border-gray-800">
-        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Estado de Plan</span>
-        <div class="flex items-center justify-between mt-2">
-          <span id="subscriptionBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300">FREE</span>
-          <button onclick="upgradeToPro()" class="text-xs text-brandBlue hover:underline font-semibold">Mejorar a Pro</button>
+      <div class="bg-darkCard p-6 rounded-2xl border border-white/10">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Suscripción</span>
+        <div class="flex items-center justify-between mt-3">
+          <span id="subscriptionBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-white/10 text-gray-300 border border-white/10">FREE</span>
+          <button onclick="upgradeToPro()" class="text-xs text-brandBlue hover:underline font-semibold">Mejorar a PRO</button>
         </div>
       </div>
-      <div class="bg-darkCard p-5 rounded-xl border border-gray-800">
-        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Widgets Creados</span>
-        <div class="text-2xl font-bold mt-1" id="widgetCount">0</div>
+      <div class="bg-darkCard p-6 rounded-2xl border border-white/10">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Widgets Creados</span>
+        <div class="text-3xl font-black mt-2" id="widgetCount">0</div>
       </div>
-      <div class="bg-darkCard p-5 rounded-xl border border-gray-800">
-        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Límite Permitido</span>
-        <div class="text-2xl font-bold mt-1" id="widgetLimit">1 Widget</div>
+      <div class="bg-darkCard p-6 rounded-2xl border border-white/10">
+        <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Límite de Plan</span>
+        <div class="text-3xl font-black mt-2" id="widgetLimit">1 Widget</div>
       </div>
     </div>
 
-    <div class="bg-darkCard rounded-xl border border-gray-800 p-6">
-      <h3 class="text-xl font-bold mb-4">Mis Widgets</h3>
+    <div class="bg-darkCard rounded-2xl border border-white/10 p-6">
+      <h3 class="text-xl font-bold mb-4">Tus Widgets Activos</h3>
       <div id="widgetsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <p class="text-gray-500 col-span-2 text-center py-8">Cargando widgets...</p>
+        <p class="text-gray-500 col-span-2 text-center py-8">Cargando tus componentes...</p>
       </div>
     </div>
   </main>
 
-  <div id="authModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center p-4 z-50">
-    <div class="bg-darkCard border border-gray-800 p-8 rounded-2xl w-full max-w-md relative">
-      <button onclick="toggleAuthModal(false)" class="absolute top-4 right-4 text-gray-500 hover:text-white">✕</button>
+  <div id="authModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center p-4 z-50">
+    <div class="bg-darkCard border border-white/15 p-8 rounded-2xl w-full max-w-md relative shadow-2xl">
+      <button onclick="toggleAuthModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
       <h3 id="authTitle" class="text-2xl font-bold mb-2 text-center">Iniciar Sesión</h3>
-      <p class="text-gray-400 text-sm text-center mb-6">Ingresa con tus credenciales para acceder a la plataforma.</p>
+      <p class="text-gray-400 text-sm text-center mb-6">Ingresa para administrar o crear tus widgets.</p>
       
       <form id="authForm" onsubmit="handleAuth(event)" class="flex flex-col gap-4">
         <div>
           <label class="text-xs text-gray-400 font-medium">Correo Electrónico</label>
-          <input type="email" id="authEmail" required class="w-full bg-darkBg border border-gray-800 rounded-lg p-3 text-sm focus:outline-none focus:border-brandBlue mt-1">
+          <input type="email" id="authEmail" required class="w-full bg-darkBg border border-white/10 rounded-xl p-3 text-sm focus:outline-none focus:border-brandBlue mt-1 text-white">
         </div>
         <div>
           <label class="text-xs text-gray-400 font-medium">Contraseña</label>
-          <input type="password" id="authPassword" required class="w-full bg-darkBg border border-gray-800 rounded-lg p-3 text-sm focus:outline-none focus:border-brandBlue mt-1">
+          <input type="password" id="authPassword" required class="w-full bg-darkBg border border-white/10 rounded-xl p-3 text-sm focus:outline-none focus:border-brandBlue mt-1 text-white">
         </div>
-        <div id="authError" class="text-brandRed text-xs hidden text-center"></div>
-        <button type="submit" id="authSubmitBtn" class="bg-brandBlue text-white font-semibold py-3 rounded-lg hover:opacity-90 transition mt-2">Ingresar</button>
+        <div id="authError" class="text-brandRed text-xs hidden text-center font-medium"></div>
+        <button type="submit" id="authSubmitBtn" class="bg-brandBlue hover:opacity-90 text-white font-semibold py-3 rounded-xl transition mt-2">Ingresar</button>
       </form>
 
       <div class="mt-6 text-center text-xs text-gray-400">
-        <span id="authToggleText">¿No tienes una cuenta?</span>
+        <span id="authToggleText">¿No tienes cuenta?</span>
         <button onclick="toggleAuthMode()" id="authToggleBtn" class="text-brandBlue font-semibold hover:underline ml-1">Regístrate</button>
       </div>
     </div>
   </div>
 
-  <div id="createModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center p-4 z-50">
-    <div class="bg-darkCard border border-gray-800 p-8 rounded-2xl w-full max-w-md relative">
-      <button onclick="toggleCreateModal(false)" class="absolute top-4 right-4 text-gray-500 hover:text-white">✕</button>
-      <h3 class="text-2xl font-bold mb-2 text-center">Nuevo Widget</h3>
-      <p class="text-gray-400 text-sm text-center mb-6">Configura y genera un nuevo componente.</p>
+  <div id="createModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center p-4 z-50">
+    <div class="bg-darkCard border border-white/15 p-8 rounded-2xl w-full max-w-md relative shadow-2xl">
+      <button onclick="toggleCreateModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
+      <h3 class="text-2xl font-bold mb-2 text-center">Configurar Nuevo Widget</h3>
+      <p class="text-gray-400 text-sm text-center mb-6">Asigna un nombre para generar el código de tu sitio.</p>
 
       <form onsubmit="handleCreateWidget(event)" class="flex flex-col gap-4">
         <div>
-          <label class="text-xs text-gray-400 font-medium">Nombre del Widget</label>
-          <input type="text" id="widgetName" placeholder="Ej: Banner Promocional" required class="w-full bg-darkBg border border-gray-800 rounded-lg p-3 text-sm focus:outline-none focus:border-brandGreen mt-1">
+          <label class="text-xs text-gray-400 font-medium">Nombre de Referencia</label>
+          <input type="text" id="widgetName" placeholder="Ej: Banner Promocional Tienda" required class="w-full bg-darkBg border border-white/10 rounded-xl p-3 text-sm focus:outline-none focus:border-brandGreen mt-1 text-white">
         </div>
         <div>
           <label class="text-xs text-gray-400 font-medium">Tipo de Widget</label>
-          <select id="widgetType" class="w-full bg-darkBg border border-gray-800 rounded-lg p-3 text-sm focus:outline-none focus:border-brandGreen mt-1 text-white">
-            <option value="announcement">Banner de Anuncio</option>
-            <option value="social_proof">Notificación de Prueba Social</option>
-            <option value="lead_capture">Captura de Leads (Email)</option>
+          <select id="widgetType" class="w-full bg-darkBg border border-white/10 rounded-xl p-3 text-sm focus:outline-none focus:border-brandGreen mt-1 text-white">
+            <option value="announcement">Banner de Anuncio (Superior)</option>
+            <option value="social_proof">Notificación Social Flotante</option>
+            <option value="lead_capture">Captura de Correo (Newsletter)</option>
           </select>
         </div>
-        <div id="createError" class="text-brandRed text-xs hidden text-center"></div>
-        <button type="submit" class="bg-brandGreen text-black font-semibold py-3 rounded-lg hover:opacity-90 transition mt-2">Guardar Widget</button>
+        <div id="createError" class="text-brandRed text-xs hidden text-center font-medium"></div>
+        <button type="submit" class="bg-brandGreen hover:opacity-90 text-black font-bold py-3 rounded-xl transition mt-2">Guardar Widget</button>
       </form>
     </div>
   </div>
 
-  <footer class="border-t border-gray-800 p-6 text-center text-gray-500 text-sm">
+  <footer class="border-t border-white/10 p-8 text-center text-gray-500 text-sm relative z-10">
     <p>&copy; 2026 WidgetForge. Todos los derechos reservados.</p>
   </footer>
 
@@ -179,7 +286,7 @@
       isSignUp = !isSignUp;
       document.getElementById('authTitle').innerText = isSignUp ? 'Crear Cuenta' : 'Iniciar Sesión';
       document.getElementById('authSubmitBtn').innerText = isSignUp ? 'Registrarse' : 'Ingresar';
-      document.getElementById('authToggleText').innerText = isSignUp ? '¿Ya tienes cuenta?' : '¿No tienes una cuenta?';
+      document.getElementById('authToggleText').innerText = isSignUp ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?';
       document.getElementById('authToggleBtn').innerText = isSignUp ? 'Inicia Sesión' : 'Regístrate';
     }
 
@@ -236,8 +343,8 @@
         const badge = document.getElementById('subscriptionBadge');
         badge.innerText = userPlan.toUpperCase();
         badge.className = userPlan === 'pro' 
-          ? 'text-xs font-bold px-2.5 py-1 rounded-full bg-brandGreen/20 text-brandGreen border border-brandGreen/30'
-          : 'text-xs font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300';
+          ? 'text-xs font-bold px-3 py-1 rounded-full bg-brandGreen/20 text-brandGreen border border-brandGreen/30'
+          : 'text-xs font-bold px-3 py-1 rounded-full bg-white/10 text-gray-300 border border-white/10';
         document.getElementById('widgetLimit').innerText = userPlan === 'pro' ? 'Ilimitado' : '1 Widget';
       }
     }
@@ -262,14 +369,14 @@
       document.getElementById('widgetCount').innerText = currentWidgetCount;
 
       container.innerHTML = widgets.map(w => `
-        <div class="bg-darkBg border border-gray-800 p-4 rounded-lg flex justify-between items-center">
+        <div class="bg-darkBg border border-white/10 p-4 rounded-xl flex justify-between items-center">
           <div>
             <div class="font-bold text-white text-sm">${w.name}</div>
             <div class="text-xs text-gray-500 uppercase tracking-wider mt-0.5">${w.type}</div>
           </div>
           <div class="flex gap-2">
-            <button onclick="copyWidgetCode('${w.id}')" class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded transition">Copiar Código</button>
-            <button onclick="deleteWidget('${w.id}')" class="text-xs text-brandRed hover:bg-brandRed/10 px-2 py-1.5 rounded transition">Eliminar</button>
+            <button onclick="copyWidgetCode('${w.id}')" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg transition font-medium">Copiar Código</button>
+            <button onclick="deleteWidget('${w.id}')" class="text-xs text-brandRed hover:bg-brandRed/10 px-2.5 py-1.5 rounded-lg transition">Eliminar</button>
           </div>
         </div>
       `).join('');
@@ -279,7 +386,7 @@
       e.preventDefault();
       if (userPlan === 'free' && currentWidgetCount >= 1) {
         const errorEl = document.getElementById('createError');
-        errorEl.innerText = 'Has alcanzado el límite del plan FREE (1 Widget). Actualiza a PRO para crear ilimitados.';
+        errorEl.innerText = 'Límite FREE alcanzado (1 Widget). Actualiza a PRO para crear ilimitados.';
         errorEl.classList.remove('hidden');
         return;
       }
@@ -316,7 +423,7 @@
     }
 
     function upgradeToPro() {
-      alert('Para procesar el pago PRO se requiere integrar la Netlify Function de Stripe. ¡Proceso completado en el frontend!');
+      alert('Integración de pago PRO lista para conectarse con la Netlify Function de Stripe.');
     }
 
     supabaseClient.auth.onAuthStateChange(() => {
