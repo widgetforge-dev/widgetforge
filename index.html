@@ -7,8 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://js.stripe.com/v3/"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -42,13 +40,20 @@
     .card-glow:hover {
       box-shadow: 0 0 25px -5px rgba(52, 199, 89, 0.2);
     }
+    .animate-appear {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brandBlue selection:text-white">
 
   <div class="fixed inset-0 glow-bg pointer-events-none z-0"></div>
 
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-darkBg/70 border-b border-white/10 p-4 transition-all">
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-darkBg/80 border-b border-white/10 p-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
         <div class="flex gap-1.5 items-center">
@@ -79,22 +84,22 @@
   </header>
 
   <main class="relative z-10">
-    <section class="max-w-5xl mx-auto text-center px-4 pt-20 pb-16">
-      <div data-aos="fade-down" data-aos-duration="800" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brandGreen/30 bg-brandGreen/10 text-brandGreen text-xs font-semibold mb-6 animate-pulse-slow">
+    <section class="max-w-5xl mx-auto text-center px-4 pt-20 pb-16 animate-appear">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brandGreen/30 bg-brandGreen/10 text-brandGreen text-xs font-semibold mb-6 animate-pulse-slow">
         <span>✨ Explora más de 10+ widgets listos para integrar</span>
       </div>
-      <h1 data-aos="fade-up" data-aos-duration="1000" class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
+      <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
         Interactividad visual sin código para tu <span class="bg-clip-text text-transparent bg-gradient-to-r from-brandBlue via-brandGreen to-brandRed">sitio web</span>
       </h1>
-      <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+      <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
         Elige tu widget ideal, personalízalo visualmente en tiempo real y copia una sola línea de código. Compatible con WordPress, Shopify, Webflow y HTML puro.
       </p>
-      <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400" class="flex flex-wrap justify-center gap-4">
+      <div class="flex flex-wrap justify-center gap-4">
         <a href="#catalog" class="bg-gradient-to-r from-brandGreen to-emerald-500 hover:opacity-90 text-black font-bold px-8 py-4 rounded-xl shadow-lg shadow-brandGreen/25 transition-all transform hover:-translate-y-0.5">Explorar Galería</a>
         <button onclick="handleAction('create')" class="border border-white/15 hover:bg-white/5 text-white font-semibold px-8 py-4 rounded-xl transition-all">Crear Cuenta Gratis</button>
       </div>
 
-      <div data-aos="fade-up" data-aos-duration="1200" data-aos-delay="600" class="mt-16 relative max-w-4xl mx-auto animate-float">
+      <div class="mt-16 relative max-w-4xl mx-auto animate-float">
         <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brandRed via-brandBlue to-brandGreen opacity-20 blur-xl"></div>
         <div class="relative bg-darkCard border border-white/10 rounded-2xl p-6 shadow-2xl backdrop-blur-xl">
           <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
@@ -118,7 +123,7 @@
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-4 py-8 border-y border-white/10 my-10" data-aos="fade-up" data-aos-duration="800">
+    <section class="max-w-6xl mx-auto px-4 py-8 border-y border-white/10 my-10">
       <p class="text-center text-xs font-semibold text-gray-500 uppercase tracking-widest mb-6">Integración directa en cualquier plataforma</p>
       <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60">
         <span class="font-bold text-lg tracking-wider text-gray-400 hover:text-white transition">WordPress</span>
@@ -131,13 +136,13 @@
     </section>
 
     <section id="catalog" class="max-w-7xl mx-auto px-4 py-20">
-      <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-duration="800">
+      <div class="text-center max-w-2xl mx-auto mb-12">
         <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Galería de Widgets</h2>
         <p class="text-gray-400">Selecciona la plantilla perfecta para potenciar las conversiones de tu proyecto.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandGreen/50 card-glow group">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandGreen/50 card-glow group">
           <div>
             <div class="flex justify-between items-start mb-4">
               <span class="text-3xl">📢</span>
@@ -149,7 +154,7 @@
           <button onclick="handleAction('use_widget', 'Banner Promocional', 'announcement')" class="w-full bg-brandGreen/10 border border-brandGreen/30 text-brandGreen hover:bg-brandGreen hover:text-black font-bold text-sm py-3 rounded-xl transition-all">Usar Plantilla</button>
         </div>
 
-        <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandBlue/50 card-glow group">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandBlue/50 card-glow group">
           <div>
             <div class="flex justify-between items-start mb-4">
               <span class="text-3xl">⚡</span>
@@ -161,7 +166,7 @@
           <button onclick="handleAction('use_widget', 'Prueba Social', 'social_proof')" class="w-full bg-brandBlue/10 border border-brandBlue/30 text-brandBlue hover:bg-brandBlue hover:text-white font-bold text-sm py-3 rounded-xl transition-all">Usar Plantilla</button>
         </div>
 
-        <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="300" class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandRed/50 card-glow group">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-brandRed/50 card-glow group">
           <div>
             <div class="flex justify-between items-start mb-4">
               <span class="text-3xl">✉️</span>
@@ -176,31 +181,31 @@
     </section>
 
     <section id="features" class="max-w-7xl mx-auto px-4 py-20 border-t border-white/10">
-      <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up" data-aos-duration="800">
+      <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="text-3xl md:text-4xl font-extrabold mb-4">¿Por qué elegir WidgetForge?</h2>
         <p class="text-gray-400">Diseñado para simplificar la integración de elementos interactivos en cualquier sitio.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100" class="bg-darkCard border border-white/10 rounded-2xl p-6">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 transition-all hover:border-white/30">
           <div class="w-12 h-12 bg-brandGreen/10 border border-brandGreen/20 rounded-xl flex items-center justify-center text-2xl mb-4">🚀</div>
           <h3 class="font-bold text-lg mb-2">Sin Código</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Solo copia y pega un fragmento de código `<script>` estándar en tu sitio.</p>
         </div>
 
-        <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200" class="bg-darkCard border border-white/10 rounded-2xl p-6">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 transition-all hover:border-white/30">
           <div class="w-12 h-12 bg-brandBlue/10 border border-brandBlue/20 rounded-xl flex items-center justify-center text-2xl mb-4">⚡</div>
           <h3 class="font-bold text-lg mb-2">Carga Asíncrona</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Nuestros scripts no bloquean el renderizado de tu página ni afectan tu puntuación SEO.</p>
         </div>
 
-        <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300" class="bg-darkCard border border-white/10 rounded-2xl p-6">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 transition-all hover:border-white/30">
           <div class="w-12 h-12 bg-brandRed/10 border border-brandRed/20 rounded-xl flex items-center justify-center text-2xl mb-4">🎨</div>
           <h3 class="font-bold text-lg mb-2">Estilos Adaptativos</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Visualización impecable en dispositivos móviles, tablets y monitores de alta resolución.</p>
         </div>
 
-        <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400" class="bg-darkCard border border-white/10 rounded-2xl p-6">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-6 transition-all hover:border-white/30">
           <div class="w-12 h-12 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center text-2xl mb-4">🔒</div>
           <h3 class="font-bold text-lg mb-2">Infraestructura Segura</h3>
           <p class="text-gray-400 text-sm leading-relaxed">Respaldado por Supabase y CDN global para garantizar 99.9% de disponibilidad.</p>
@@ -209,13 +214,13 @@
     </section>
 
     <section id="pricing" class="max-w-6xl mx-auto px-4 py-20 border-t border-white/10">
-      <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up" data-aos-duration="800">
+      <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Planes y Precios</h2>
         <p class="text-gray-400">Elige el plan ideal para escalar las conversiones de tu negocio.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <div data-aos="fade-right" data-aos-duration="800" class="bg-darkCard border border-white/10 rounded-2xl p-8 flex flex-col justify-between">
+        <div class="bg-darkCard border border-white/10 rounded-2xl p-8 flex flex-col justify-between">
           <div>
             <h3 class="text-2xl font-bold mb-2">Plan Gratuito</h3>
             <p class="text-gray-400 text-sm mb-6">Para proyectos personales o sitios iniciales.</p>
@@ -229,7 +234,7 @@
           <button onclick="handleAction('create')" class="w-full bg-white/10 hover:bg-white/20 font-bold py-3 rounded-xl transition text-sm">Comenzar Gratis</button>
         </div>
 
-        <div data-aos="fade-left" data-aos-duration="800" class="bg-darkCard border border-brandGreen/50 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-brandGreen/10">
+        <div class="bg-darkCard border border-brandGreen/50 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-brandGreen/10">
           <span class="absolute -top-3 right-6 bg-brandGreen text-black font-extrabold text-[10px] uppercase px-3 py-1 rounded-full">Recomendado</span>
           <div>
             <h3 class="text-2xl font-bold mb-2 text-brandGreen">Plan PRO</h3>
@@ -247,7 +252,7 @@
       </div>
     </section>
 
-    <section class="max-w-5xl mx-auto px-4 py-20 border-t border-white/10 text-center" data-aos="zoom-in" data-aos-duration="1000">
+    <section class="max-w-5xl mx-auto px-4 py-20 border-t border-white/10 text-center">
       <div class="bg-gradient-to-r from-brandBlue/10 via-brandGreen/10 to-brandRed/10 border border-white/10 rounded-3xl p-12 relative overflow-hidden">
         <h2 class="text-3xl md:text-5xl font-black mb-4">¿Listo para transformar tu sitio web?</h2>
         <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-8">Comienza a usar nuestros widgets en menos de dos minutos. Sin tarjeta de crédito requerida.</p>
@@ -255,7 +260,7 @@
       </div>
     </section>
 
-    <section id="my-widgets" class="max-w-7xl mx-auto px-4 py-16 border-t border-white/10" data-aos="fade-up" data-aos-duration="800">
+    <section id="my-widgets" class="max-w-7xl mx-auto px-4 py-16 border-t border-white/10">
       <div class="bg-darkCard rounded-2xl border border-white/10 p-8">
         <h3 class="text-2xl font-bold mb-2">Mis Widgets Creados</h3>
         <p class="text-gray-400 text-sm mb-6">Administra tus componentes e integra tu código único en tu sitio.</p>
@@ -296,7 +301,7 @@
     <div class="bg-darkCard border border-white/15 p-8 rounded-2xl w-full max-w-md relative shadow-2xl">
       <button onclick="toggleCreateModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
       <h3 class="text-2xl font-bold mb-2 text-center">Configurar Widget</h3>
-      <p class="text-gray-400 text-sm text-center mb-6">Confirma el nombre para generar tu código de integración.</p>
+      <p class="text-gray-400 text-sm text-center mb-6">Confirms el nombre para generar tu código de integración.</p>
 
       <form onsubmit="handleCreateWidget(event)" class="flex flex-col gap-4">
         <div>
@@ -323,19 +328,18 @@
   </footer>
 
   <script>
-    AOS.init({
-      once: true,
-      offset: 100
-    });
-
     const SUPABASE_URL = 'https://ghbbgbjyoaahbmfclzxv.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_RybUyTU1Nf_8vtBJ-TSNHQ_fVhHC5oY';
     const STRIPE_PUBLIC_KEY = 'pk_test_51UTYRfLbIadCJXijVMIwbkbfHnz9H1XZnTkGZdu4WJEviOWD0ByqQd9m5F4DIJMI275qRYDv8BSHzGMzGKjvOhGB00ryjqNYR8';
     const STRIPE_PRICE_ID_PRO = 'price_1UTc1CLbIadCJXijFhVPxxHx';
 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabaseClient = null;
+    if (typeof supabase !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('AQUÍ_TU')) {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
     let stripe = null;
-    if (STRIPE_PUBLIC_KEY && !STRIPE_PUBLIC_KEY.includes('AQUÍ_TU')) {
+    if (typeof Stripe !== 'undefined' && STRIPE_PUBLIC_KEY && !STRIPE_PUBLIC_KEY.includes('AQUÍ_TU')) {
       stripe = Stripe(STRIPE_PUBLIC_KEY);
     }
 
@@ -383,6 +387,11 @@
 
     async function handleAuth(e) {
       e.preventDefault();
+      if (!supabaseClient) {
+        alert('Por favor configura tus claves de Supabase en las variables del archivo.');
+        return;
+      }
+
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
       const errorEl = document.getElementById('authError');
@@ -402,11 +411,15 @@
     }
 
     async function handleLogout() {
-      await supabaseClient.auth.signOut();
+      if (supabaseClient) {
+        await supabaseClient.auth.signOut();
+      }
       checkSession();
     }
 
     async function checkSession() {
+      if (!supabaseClient) return;
+
       const { data: { session } } = await supabaseClient.auth.getSession();
       currentUser = session ? session.user : null;
 
@@ -424,7 +437,7 @@
     }
 
     async function loadProfileData() {
-      if (!currentUser) return;
+      if (!currentUser || !supabaseClient) return;
       const { data } = await supabaseClient.from('profiles').select('plan_tier').eq('id', currentUser.id).single();
       if (data) {
         userPlan = data.plan_tier;
@@ -437,7 +450,7 @@
     }
 
     async function loadWidgets() {
-      if (!currentUser) return;
+      if (!currentUser || !supabaseClient) return;
       const { data: widgets, error } = await supabaseClient
         .from('widgets')
         .select('*')
@@ -471,6 +484,8 @@
 
     async function handleCreateWidget(e) {
       e.preventDefault();
+      if (!supabaseClient) return;
+
       if (userPlan === 'free' && currentWidgetCount >= 1) {
         const errorEl = document.getElementById('createError');
         errorEl.innerText = 'Límite FREE alcanzado (1 Widget). Actualiza a PRO para crear ilimitados.';
@@ -498,8 +513,10 @@
 
     async function deleteWidget(id) {
       if (confirm('¿Estás seguro de eliminar este widget?')) {
-        await supabaseClient.from('widgets').delete().eq('id', id);
-        loadWidgets();
+        if (supabaseClient) {
+          await supabaseClient.from('widgets').delete().eq('id', id);
+          loadWidgets();
+        }
       }
     }
 
@@ -513,11 +530,12 @@
       alert('Redirigiendo al checkout de Stripe para la suscripción PRO...');
     }
 
-    supabaseClient.auth.onAuthStateChange(() => {
+    if (supabaseClient) {
+      supabaseClient.auth.onAuthStateChange(() => {
+        checkSession();
+      });
       checkSession();
-    });
-
-    checkSession();
+    }
   </script>
 </body>
 </html>
