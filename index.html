@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WidgetForge - Interactive Web Widgets</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -22,6 +23,7 @@
   </script>
 </head>
 <body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+
   <header class="border-b border-gray-800 p-4">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
       <div class="flex items-center gap-2">
@@ -33,24 +35,176 @@
         <span class="font-bold text-xl tracking-wide">WidgetForge</span>
       </div>
       <nav class="flex gap-4 items-center">
-        <a href="#features" class="text-gray-400 hover:text-white transition">Funciones</a>
-        <a href="#pricing" class="text-gray-400 hover:text-white transition">Planes</a>
-        <button class="bg-brandBlue hover:opacity-90 text-white font-medium px-4 py-2 rounded-lg transition">Acceder</button>
+        <div id="guestNav" class="flex gap-4 items-center">
+          <a href="#features" class="text-gray-400 hover:text-white transition">Funciones</a>
+          <a href="#pricing" class="text-gray-400 hover:text-white transition">Planes</a>
+          <button onclick="toggleAuthModal(true)" class="bg-brandBlue hover:opacity-90 text-white font-medium px-4 py-2 rounded-lg transition">Acceder</button>
+        </div>
+        <div id="userNav" class="hidden flex gap-4 items-center">
+          <span id="userEmailDisplay" class="text-gray-400 text-sm"></span>
+          <button onclick="handleLogout()" class="border border-gray-700 hover:border-gray-500 text-gray-300 font-medium px-3 py-1.5 rounded-lg text-sm transition">Cerrar Sesión</button>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto text-center px-4 py-20">
+  <main id="landingSection" class="max-w-4xl mx-auto text-center px-4 py-20">
     <h1 class="text-5xl font-extrabold mb-6 tracking-tight">Potencia tu sitio web con widgets interactivos</h1>
     <p class="text-gray-400 text-lg mb-8">Crea, personaliza e integra componentes dinámicos en segundos sin escribir una sola línea de código.</p>
     <div class="flex justify-center gap-4">
-      <button class="bg-brandGreen hover:opacity-90 text-black font-semibold px-6 py-3 rounded-lg transition">Empezar gratis</button>
-      <button class="border border-gray-700 hover:border-gray-500 text-white font-medium px-6 py-3 rounded-lg transition">Ver demostración</button>
+      <button onclick="toggleAuthModal(true)" class="bg-brandGreen hover:opacity-90 text-black font-semibold px-6 py-3 rounded-lg transition">Empezar gratis</button>
+      <a href="#pricing" class="border border-gray-700 hover:border-gray-500 text-white font-medium px-6 py-3 rounded-lg transition">Ver planes</a>
     </div>
   </main>
+
+  <main id="dashboardSection" class="hidden max-w-6xl mx-auto w-full px-4 py-10 flex-1">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h2 class="text-3xl font-bold">Panel de Control</h2>
+        <p class="text-gray-400 text-sm mt-1">Gestiona tus widgets y tu suscripción activa.</p>
+      </div>
+      <button onclick="toggleCreateModal(true)" class="bg-brandGreen text-black font-semibold px-4 py-2 rounded-lg transition hover:opacity-90">+ Crear Widget</button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-darkCard p-5 rounded-xl border border-gray-800">
+        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Estado de Plan</span>
+        <div class="flex items-center justify-between mt-2">
+          <span id="subscriptionBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300">FREE</span>
+          <button onclick="upgradeToPro()" class="text-xs text-brandBlue hover:underline font-semibold">Mejorar a Pro</button>
+        </div>
+      </div>
+      <div class="bg-darkCard p-5 rounded-xl border border-gray-800">
+        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Widgets Creados</span>
+        <div class="text-2xl font-bold mt-1" id="widgetCount">0</div>
+      </div>
+      <div class="bg-darkCard p-5 rounded-xl border border-gray-800">
+        <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Límite Permitido</span>
+        <div class="text-2xl font-bold mt-1" id="widgetLimit">1 Widget</div>
+      </div>
+    </div>
+
+    <div class="bg-darkCard rounded-xl border border-gray-800 p-6">
+      <h3 class="text-xl font-bold mb-4">Mis Widgets</h3>
+      <div id="widgetsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <p class="text-gray-500 col-span-2 text-center py-8">Aún no has creado ningún widget.</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="authModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center p-4 z-50">
+    <div class="bg-darkCard border border-gray-800 p-8 rounded-2xl w-full max-w-md relative">
+      <button onclick="toggleAuthModal(false)" class="absolute top-4 right-4 text-gray-500 hover:text-white">✕</button>
+      <h3 id="authTitle" class="text-2xl font-bold mb-2 text-center">Iniciar Sesión</h3>
+      <p class="text-gray-400 text-sm text-center mb-6">Ingresa con tus credenciales para acceder a la plataforma.</p>
+      
+      <form id="authForm" onsubmit="handleAuth(event)" class="flex flex-col gap-4">
+        <div>
+          <label class="text-xs text-gray-400 font-medium">Correo Electrónico</label>
+          <input type="email" id="authEmail" required class="w-full bg-darkBg border border-gray-800 rounded-lg p-3 text-sm focus:outline-none focus:border-brandBlue mt-1">
+        </div>
+        <div>
+          <label class="text-xs text-gray-400 font-medium">Contraseña</label>
+          <input type="password" id="authPassword" required class="w-full bg-darkBg border border-gray-800 rounded-lg p-3 text-sm focus:outline-none focus:border-brandBlue mt-1">
+        </div>
+        <div id="authError" class="text-brandRed text-xs hidden text-center"></div>
+        <button type="submit" id="authSubmitBtn" class="bg-brandBlue text-white font-semibold py-3 rounded-lg hover:opacity-90 transition mt-2">Ingresar</button>
+      </form>
+
+      <div class="mt-6 text-center text-xs text-gray-400">
+        <span id="authToggleText">¿No tienes una cuenta?</span>
+        <button onclick="toggleAuthMode()" id="authToggleBtn" class="text-brandBlue font-semibold hover:underline ml-1">Regístrate</button>
+      </div>
+    </div>
+  </div>
 
   <footer class="border-t border-gray-800 p-6 text-center text-gray-500 text-sm">
     <p>&copy; 2026 WidgetForge. Todos los derechos reservados.</p>
   </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://ghbbgbjyoaahbmfclzxv.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_RybUyTU1Nf_8vtBJ-TSNHQ_fVhHC5oY';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let isSignUp = false;
+    let currentUser = null;
+
+    function toggleAuthModal(show) {
+      document.getElementById('authModal').classList.toggle('hidden', !show);
+      document.getElementById('authError').classList.add('hidden');
+    }
+
+    function toggleAuthMode() {
+      isSignUp = !isSignUp;
+      document.getElementById('authTitle').innerText = isSignUp ? 'Crear Cuenta' : 'Iniciar Sesión';
+      document.getElementById('authSubmitBtn').innerText = isSignUp ? 'Registrarse' : 'Ingresar';
+      document.getElementById('authToggleText').innerText = isSignUp ? '¿Ya tienes cuenta?' : '¿No tienes una cuenta?';
+      document.getElementById('authToggleBtn').innerText = isSignUp ? 'Inicia Sesión' : 'Regístrate';
+    }
+
+    async function handleAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      const errorEl = document.getElementById('authError');
+      errorEl.classList.add('hidden');
+
+      let result = isSignUp 
+        ? await supabaseClient.auth.signUp({ email, password })
+        : await supabaseClient.auth.signInWithPassword({ email, password });
+
+      if (result.error) {
+        errorEl.innerText = result.error.message;
+        errorEl.classList.remove('hidden');
+      } else {
+        toggleAuthModal(false);
+        checkSession();
+      }
+    }
+
+    async function handleLogout() {
+      await supabaseClient.auth.signOut();
+      checkSession();
+    }
+
+    async function checkSession() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      currentUser = session ? session.user : null;
+
+      if (currentUser) {
+        document.getElementById('guestNav').classList.add('hidden');
+        document.getElementById('userNav').classList.remove('hidden');
+        document.getElementById('userEmailDisplay').innerText = currentUser.email;
+        document.getElementById('landingSection').classList.add('hidden');
+        document.getElementById('dashboardSection').classList.remove('hidden');
+        loadProfileData();
+      } else {
+        document.getElementById('guestNav').classList.remove('hidden');
+        document.getElementById('userNav').classList.add('hidden');
+        document.getElementById('landingSection').classList.remove('hidden');
+        document.getElementById('dashboardSection').classList.add('hidden');
+      }
+    }
+
+    async function loadProfileData() {
+      if (!currentUser) return;
+      const { data } = await supabaseClient.from('profiles').select('plan_tier').eq('id', currentUser.id).single();
+      if (data) {
+        const badge = document.getElementById('subscriptionBadge');
+        badge.innerText = data.plan_tier.toUpperCase();
+        badge.className = data.plan_tier === 'pro' 
+          ? 'text-xs font-bold px-2.5 py-1 rounded-full bg-brandGreen/20 text-brandGreen border border-brandGreen/30'
+          : 'text-xs font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300';
+        document.getElementById('widgetLimit').innerText = data.plan_tier === 'pro' ? 'Ilimitado' : '1 Widget';
+      }
+    }
+
+    supabaseClient.auth.onAuthStateChange(() => {
+      checkSession();
+    });
+
+    checkSession();
+  </script>
 </body>
 </html>
