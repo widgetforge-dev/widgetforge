@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WidgetForge - Interactive Web Widgets</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF3B30',
+            brandBlue: '#007AFF',
+            brandGreen: '#34C759',
+            darkBg: '#0D0D0D',
+            darkCard: '#1A1A1A'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+  <header class="border-b border-gray-800 p-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="flex gap-1">
+          <span class="w-3 h-3 rounded-full bg-brandRed"></span>
+          <span class="w-3 h-3 rounded-full bg-brandBlue"></span>
+          <span class="w-3 h-3 rounded-full bg-brandGreen"></span>
+        </div>
+        <span class="font-bold text-xl tracking-wide">WidgetForge</span>
+      </div>
+      <nav class="flex gap-4 items-center">
+        <a href="#features" class="text-gray-400 hover:text-white transition">Funciones</a>
+        <a href="#pricing" class="text-gray-400 hover:text-white transition">Planes</a>
+        <button class="bg-brandBlue hover:opacity-90 text-white font-medium px-4 py-2 rounded-lg transition">Acceder</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto text-center px-4 py-20">
+    <h1 class="text-5xl font-extrabold mb-6 tracking-tight">Potencia tu sitio web con widgets interactivos</h1>
+    <p class="text-gray-400 text-lg mb-8">Crea, personaliza e integra componentes dinámicos en segundos sin escribir una sola línea de código.</p>
+    <div class="flex justify-center gap-4">
+      <button class="bg-brandGreen hover:opacity-90 text-black font-semibold px-6 py-3 rounded-lg transition">Empezar gratis</button>
+      <button class="border border-gray-700 hover:border-gray-500 text-white font-medium px-6 py-3 rounded-lg transition">Ver demostración</button>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-800 p-6 text-center text-gray-500 text-sm">
+    <p>&copy; 2026 WidgetForge. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
